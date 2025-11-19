@@ -32,16 +32,16 @@ router.post('/contact', async (req, res) => {
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
         <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
-        <h2 style="color: white; margin: 0;">NEW CONTACT FORM SUBMISSION!</h2>
+          <h2 style="color: white; margin: 0;">NEW CONTACT FORM SUBMISSION!</h2>
         </div>
-       <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-          <p style="font-size: 16px; color: #333;">Hi <strong>${name}</strong>,</p>
-
-          <p style="font-size: 16px; color: #333; line-height: 1.6;">"${email}"</p>
-
+        <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+          <p style="font-size: 16px; color: #333;"><strong>Name:</strong> ${name}</p>
+          <p style="font-size: 16px; color: #333;"><strong>Email:</strong> ${email}</p>
           <div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #667eea; margin: 20px 0;">
-            <p style="margin: 0; font-style: italic; color: #555;">"${message}"</p>
+            <p style="margin: 0; font-style: italic; color: #555;"><strong>Message:</strong> ${message}</p>
           </div>
+        </div>
+      </div>
     `
   };
 
