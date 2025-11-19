@@ -208,7 +208,7 @@ router.get('/portfolio', (req, res) => {
         title: "Portfolio Website",
         description: "Personal portfolio showcasing projects, skills, and professional experience",
         tech: "React.js",
-        github: "https://github.com/mohammedashiqueofficial7/Blog-Website",
+        github: "https://github.com/mohammedashiqueofficial7/My-new-Portfolio",
         features: [
           "Modern responsive design",
           "Dark/Light mode toggle",
