@@ -16,7 +16,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
-  },  
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

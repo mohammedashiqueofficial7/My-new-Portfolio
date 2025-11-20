@@ -10,7 +10,8 @@
     "install-deps": "npm install && cd backend && npm install && cd ../frontend && npm install"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "vite": "^7.2.2"
   },
   "keywords": [
     "portfolio",
