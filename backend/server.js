@@ -12,8 +12,34 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+const fs = require("fs");
+
+// Serve static files from the React app (prefer `dist` from Vite, fallback to `build`)
+const distPath = path.join(__dirname, "../frontend/dist");
+const buildPath = path.join(__dirname, "../frontend/build");
+const staticPath = fs.existsSync(distPath) ? distPath : buildPath;
+
+if (fs.existsSync(staticPath)) {
+  app.use(express.static(staticPath));
+} else {
+  console.warn(
+    "Warning: No frontend build found. Expected `dist` or `build` folder in frontend/."
+  );
+}
+
+// Fallback for client-side routing (React Router)
+// Use a middleware rather than a route pattern to avoid path-to-regexp issues in some environments
+app.use((req, res, next) => {
+  if (req.method !== "GET") return next();
+  if (req.path.startsWith("/api")) return next();
+
+  const indexFile = path.join(staticPath, "index.html");
+  if (fs.existsSync(indexFile)) {
+    return res.sendFile(indexFile);
+  }
+
+  return next();
+});
 
 // Contact form endpoint
 router.post("/contact", async (req, res) => {
@@ -98,12 +124,9 @@ router.post("/contact", async (req, res) => {
     await transporter.sendMail(notificationEmail);
     await transporter.sendMail(replyEmail);
 
-    res
-      .status(200)
-      .json({
-        message:
-          "Message sent successfully! Check your email for confirmation.",
-      });
+    res.status(200).json({
+      message: "Message sent successfully! Check your email for confirmation.",
+    });
   } catch (error) {
     console.error("Error sending email:", error);
     res
