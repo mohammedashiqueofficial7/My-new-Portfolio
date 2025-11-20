@@ -1,4 +1,17 @@
 {
-  "buildCommand": "cd frontend && npm run build",
-  "outputDirectory": "frontend/build"
+  "functions": {
+    "backend/server.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/backend/server.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/$1"
+    }
+  ]
 }
