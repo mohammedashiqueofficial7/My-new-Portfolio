@@ -1,7 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+const express = require("express");
+const cors = require("cors");
+const nodemailer = require("nodemailer");
+const path = require("path");
+require("dotenv").config();
 
 const app = express();
 const router = express.Router();
@@ -11,17 +12,25 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+// Fallback for React Router
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
 // Contact form endpoint
-router.post('/contact', async (req, res) => {
+router.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
   // Create transporter (using Gmail as example)
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+      pass: process.env.EMAIL_PASS,
+    },
   });
 
   // Email to me (notification)
@@ -42,14 +51,15 @@ router.post('/contact', async (req, res) => {
           </div>
         </div>
       </div>
-    `
+    `,
   };
 
   // Reply email to sender
   const replyEmail = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Thank you for contacting Mohammed Ashique S - MERN Stack Developer',
+    subject:
+      "Thank you for contacting Mohammed Ashique S - MERN Stack Developer",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
         <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
@@ -85,23 +95,30 @@ router.post('/contact', async (req, res) => {
           <p>This is an automated response. Please do not reply to this email.</p>
         </div>
       </div>
-    `
+    `,
   };
 
   try {
     // Send both emails
     await transporter.sendMail(notificationEmail);
     await transporter.sendMail(replyEmail);
-    
-    res.status(200).json({ message: 'Message sent successfully! Check your email for confirmation.' });
+
+    res
+      .status(200)
+      .json({
+        message:
+          "Message sent successfully! Check your email for confirmation.",
+      });
   } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).json({ message: 'Failed to send message. Please try again.' });
+    console.error("Error sending email:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to send message. Please try again." });
   }
 });
 
 // Get portfolio data
-router.get('/portfolio', (req, res) => {
+router.get("/portfolio", (req, res) => {
   const portfolioData = {
     personalInfo: {
       name: "Mohammed Ashique S",
@@ -110,9 +127,10 @@ router.get('/portfolio', (req, res) => {
       email: "ashiqueoffl7@gmail.com",
       phone: "+91 79028 57903",
       linkedin: "linkedin.com/in/mohammed-ashique-s-13613b339",
-      github: "github.com/mohammedashiqueofficial7"
+      github: "github.com/mohammedashiqueofficial7",
     },
-    about: "I'm a passionate Computer Science graduate from 2023, eager to make my mark in the software development industry. Based in Thiruvananthapuram, India, I recently completed an intensive MERN Stack internship at Srishti Innovative (2024-2025), where I gained hands-on experience building real-world applications. My journey in programming started during my B.Tech studies, and I've been dedicated to mastering modern web technologies. I believe in learning by doing, which is why I've built multiple projects using the MERN stack to solidify my understanding and showcase my capabilities. I'm excited about the opportunity to contribute to innovative projects and grow as a developer in a collaborative, growth-focused environment.",
+    about:
+      "I'm a passionate Computer Science graduate from 2023, eager to make my mark in the software development industry. Based in Thiruvananthapuram, India, I recently completed an intensive MERN Stack internship at Srishti Innovative (2024-2025), where I gained hands-on experience building real-world applications. My journey in programming started during my B.Tech studies, and I've been dedicated to mastering modern web technologies. I believe in learning by doing, which is why I've built multiple projects using the MERN stack to solidify my understanding and showcase my capabilities. I'm excited about the opportunity to contribute to innovative projects and grow as a developer in a collaborative, growth-focused environment.",
     education: [
       {
         degree: "MERN STACK DEVELOPER",
@@ -127,13 +145,13 @@ router.get('/portfolio', (req, res) => {
       {
         degree: "Higher Secondary Education",
         institution: "Govt. VHSS Paruthippally",
-        period: "2017-2019"
+        period: "2017-2019",
       },
       {
         degree: "Secondary Education",
         institution: "Govt. VHSS Paruthippally",
-        period: "2016-2017"
-      }
+        period: "2016-2017",
+      },
     ],
     experience: [
       {
@@ -142,20 +160,56 @@ router.get('/portfolio', (req, res) => {
         period: "2024-2025",
         responsibilities: [
           "Built and deployed full-stack web applications using React.js, Node.js, and MongoDB",
-          "Collaborated with developers to improve application performance and maintainability"
-        ]
-      }
+          "Collaborated with developers to improve application performance and maintainability",
+        ],
+      },
     ],
     skills: {
-      frontend: ["HTML5", "CSS3", "JavaScript", "React.js", "Bootstrap", "Tailwind CSS", "Material-UI", "Framer Motion"],
-      backend: ["Node.js", "Express.js", "RESTful APIs", "JWT Authentication", "Middleware", "Server-side Rendering", "Python"],
-      database: ["MongoDB", "Mongoose", "MySQL", "PostgreSQL", "Database Design", "Aggregation"],
-      tools: ["Git", "GitHub", "VS Code", "Postman", "npm", "Webpack", "Babel", "ESLint", "Figma", "MS Office"]
+      frontend: [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "React.js",
+        "Bootstrap",
+        "Tailwind CSS",
+        "Material-UI",
+        "Framer Motion",
+      ],
+      backend: [
+        "Node.js",
+        "Express.js",
+        "RESTful APIs",
+        "JWT Authentication",
+        "Middleware",
+        "Server-side Rendering",
+        "Python",
+      ],
+      database: [
+        "MongoDB",
+        "Mongoose",
+        "MySQL",
+        "PostgreSQL",
+        "Database Design",
+        "Aggregation",
+      ],
+      tools: [
+        "Git",
+        "GitHub",
+        "VS Code",
+        "Postman",
+        "npm",
+        "Webpack",
+        "Babel",
+        "ESLint",
+        "Figma",
+        "MS Office",
+      ],
     },
     projects: [
       {
         title: "Blog Management Website [Frontend]",
-        description: "Full-featured blog platform with user authentication, blog management, and AI-powered chat assistance",
+        description:
+          "Full-featured blog platform with user authentication, blog management, and AI-powered chat assistance",
         tech: "MERN Stack",
         github: "https://github.com/mohammedashiqueofficial7/BlogProject",
         features: [
@@ -164,12 +218,13 @@ router.get('/portfolio', (req, res) => {
           "AI-powered chat assistance for content",
           "Responsive design with modern UI",
           "Real-time notifications and updates",
-          "Advanced search and filtering system"
-        ]
+          "Advanced search and filtering system",
+        ],
       },
       {
         title: "Blog Management Website [Backend]",
-        description: "Robust backend API for blog management with advanced features and security",
+        description:
+          "Robust backend API for blog management with advanced features and security",
         tech: "MERN Stack",
         github: "https://github.com/mohammedashiqueofficial7/BlogBackend",
         features: [
@@ -178,12 +233,13 @@ router.get('/portfolio', (req, res) => {
           "MongoDB database with Mongoose ODM",
           "File upload handling for images",
           "Input validation and sanitization",
-          "Error handling and logging system"
-        ]
+          "Error handling and logging system",
+        ],
       },
       {
         title: "E-Commerce Website",
-        description: "Complete online shopping platform with user authentication and product management",
+        description:
+          "Complete online shopping platform with user authentication and product management",
         tech: "MERN Stack",
         github: "https://github.com/mohammedashiqueofficial7",
         features: [
@@ -192,12 +248,13 @@ router.get('/portfolio', (req, res) => {
           "Shopping cart functionality",
           "Secure payment integration",
           "Order management system",
-          "Admin dashboard for inventory"
-        ]
+          "Admin dashboard for inventory",
+        ],
       },
       {
         title: "Simple Blog Website",
-        description: "Blog management system for posting and managing content with clean, minimal design",
+        description:
+          "Blog management system for posting and managing content with clean, minimal design",
         tech: "React.js",
         github: "https://github.com/mohammedashiqueofficial7/Blog-Website",
         features: [
@@ -206,12 +263,13 @@ router.get('/portfolio', (req, res) => {
           "Dynamic content rendering",
           "SEO-friendly structure",
           "Fast loading performance",
-          "Easy content management"
-        ]
+          "Easy content management",
+        ],
       },
       {
         title: "Portfolio Website",
-        description: "Personal portfolio showcasing projects, skills, and professional experience",
+        description:
+          "Personal portfolio showcasing projects, skills, and professional experience",
         tech: "React.js",
         github: "https://github.com/mohammedashiqueofficial7/My-new-Portfolio",
         features: [
@@ -220,18 +278,17 @@ router.get('/portfolio', (req, res) => {
           "Smooth animations and transitions",
           "Contact form with email integration",
           "Project showcase with live demos",
-          "Skills visualization and progress bars"
-        ]
-      }
+          "Skills visualization and progress bars",
+        ],
+      },
     ],
-
   };
 
   res.json(portfolioData);
 });
 
 // Use router
-app.use('/api', router);
+app.use("/api", router);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
