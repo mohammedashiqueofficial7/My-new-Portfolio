@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaCode, FaServer, FaDatabase, FaTools, FaBrain } from 'react-icons/fa';
 
-const Skills = ({ skills }) => {
+function Skills({ skills }) {
   const logoMap = {
     'HTML5': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
     'CSS3': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
@@ -99,6 +99,6 @@ const Skills = ({ skills }) => {
       </div>
     </section>
   );
-};
+}
 
 export default Skills;
