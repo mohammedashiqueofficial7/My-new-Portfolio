@@ -15,11 +15,6 @@ app.use(express.json());
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-// Fallback for React Router
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-});
-
 // Contact form endpoint
 router.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
