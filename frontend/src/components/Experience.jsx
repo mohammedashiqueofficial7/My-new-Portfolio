@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaBriefcase, FaCalendarAlt, FaBuilding } from 'react-icons/fa';
 
 const Experience = ({ experience }) => {
