@@ -19,7 +19,8 @@ function App() {
 
   const fetchPortfolioData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/portfolio');
+      const apiUrl = import.meta.env.PROD ? '/api/portfolio' : 'http://localhost:5000/api/portfolio';
+      const response = await fetch(apiUrl);
       const data = await response.json();
       setPortfolioData(data);
     } catch (error) {
@@ -32,7 +33,24 @@ function App() {
   };
 
   if (!portfolioData) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading-screen">
+        <div className="loading-container">
+          <div className="loading-logo">
+            <div className="logo-text">MA</div>
+          </div>
+          <div className="loading-spinner">
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+          </div>
+          <div className="loading-text">Loading Portfolio...</div>
+          <div className="loading-progress">
+            <div className="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
