@@ -64,7 +64,7 @@ const Projects = ({ projects }) => {
     }
   ];
 
-  const projectList = projects || defaultProjects;
+  const projectList = (projects && projects.length > 0) ? projects : defaultProjects;
 
   return (
     <section id="projects" className="projects">
