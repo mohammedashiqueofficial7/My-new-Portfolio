@@ -25,6 +25,21 @@ function App() {
       setPortfolioData(data);
     } catch (error) {
       console.error('Error fetching portfolio data:', error);
+      // Fallback data if API fails
+      setPortfolioData({
+        personalInfo: {
+          name: "Mohammed Ashique S",
+          title: "MERN Stack Developer",
+          email: "ashiqueoffl7@gmail.com",
+          phone: "+91 79028 57903",
+          linkedin: "linkedin.com/in/mohammed-ashique-s-13613b339",
+          github: "github.com/mohammedashiqueofficial7"
+        },
+        about: "Passionate MERN Stack Developer with experience in building modern web applications.",
+        education: [],
+        experience: [],
+        projects: []
+      });
     }
   };
 
