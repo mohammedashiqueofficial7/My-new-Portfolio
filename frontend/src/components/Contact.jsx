@@ -23,15 +23,33 @@ const Contact = ({ personalInfo }) => {
     setIsSubmitting(true);
     
     try {
-      await axios.post('http://localhost:5000/api/contact', formData);
-      setSubmitMessage('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
+      const apiUrl = import.meta.env.PROD ? '/api/contact' : 'http://localhost:5000/api/contact';
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: 10000
+      });
+      
+      if (response.status === 200) {
+        setSubmitMessage('Message sent successfully! Check your email for confirmation.');
+        setFormData({ name: '', email: '', message: '' });
+      }
     } catch (error) {
-      setSubmitMessage('Failed to send message. Please try again.');
+      console.error('Contact form error:', error);
+      if (error.code === 'ECONNABORTED') {
+        setSubmitMessage('Request timeout. Please check your connection and try again.');
+      } else if (error.response) {
+        setSubmitMessage(`Error: ${error.response.data.message || 'Server error occurred.'}`);
+      } else if (error.request) {
+        setSubmitMessage('Unable to connect to server. Please try again later.');
+      } else {
+        setSubmitMessage('Failed to send message. Please try again.');
+      }
     }
     
     setIsSubmitting(false);
-    setTimeout(() => setSubmitMessage(''), 5000);
+    setTimeout(() => setSubmitMessage(''), 8000);
   };
 
   return (
