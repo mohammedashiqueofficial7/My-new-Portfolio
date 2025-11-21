@@ -47,15 +47,22 @@ router.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
   // Create transporter (using Gmail)
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+  const transporter = nodemailer.createTransporter({
+    service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
   });
+
+  // Verify transporter
+  try {
+    await transporter.verify();
+    console.log('SMTP connection verified');
+  } catch (error) {
+    console.error('SMTP verification failed:', error);
+    return res.status(500).json({ message: 'Email service unavailable' });
+  }
 
   // Email to me (notification)
   const notificationEmail = {
