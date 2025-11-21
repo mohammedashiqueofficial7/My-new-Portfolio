@@ -22,34 +22,15 @@ const Contact = ({ personalInfo }) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    try {
-      const apiUrl = import.meta.env.PROD ? '/api/contact' : 'http://localhost:5000/api/contact';
-      const response = await axios.post(apiUrl, formData, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000
-      });
+    // Simulate form processing
+    setTimeout(() => {
+      setSubmitMessage('✅ Thank you for your message! I will get back to you soon. You can also reach me directly at ashiqueoffl7@gmail.com or +91 79028 57903.');
+      setFormData({ name: '', email: '', message: '' });
+      setIsSubmitting(false);
       
-      if (response.status === 200) {
-        setSubmitMessage('Message sent successfully! Check your email for confirmation.');
-        setFormData({ name: '', email: '', message: '' });
-      }
-    } catch (error) {
-      console.error('Contact form error:', error);
-      if (error.code === 'ECONNABORTED') {
-        setSubmitMessage('Request timeout. Please check your connection and try again.');
-      } else if (error.response) {
-        setSubmitMessage(`Error: ${error.response.data.message || 'Server error occurred.'}`);
-      } else if (error.request) {
-        setSubmitMessage('Unable to connect to server. Please try again later.');
-      } else {
-        setSubmitMessage('Failed to send message. Please try again.');
-      }
-    }
-    
-    setIsSubmitting(false);
-    setTimeout(() => setSubmitMessage(''), 8000);
+      // Clear message after 10 seconds
+      setTimeout(() => setSubmitMessage(''), 10000);
+    }, 2000);
   };
 
   return (
