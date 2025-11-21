@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane } from 'react-icons/fa';
-import emailjs from '@emailjs/browser';
+import emailjs from 'emailjs-com';
 
 const Contact = ({ personalInfo }) => {
   const [formData, setFormData] = useState({
