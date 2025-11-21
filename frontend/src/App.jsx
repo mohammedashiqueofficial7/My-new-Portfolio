@@ -15,7 +15,6 @@ function App() {
     personalInfo: {
       name: "Mohammed Ashique S",
       title: "MERN Stack Developer",
-      location: "Thiruvananthapuram, Kerala, India",
       email: "ashiqueoffl7@gmail.com",
       phone: "+91 79028 57903",
       linkedin: "linkedin.com/in/mohammed-ashique-s-13613b339",
