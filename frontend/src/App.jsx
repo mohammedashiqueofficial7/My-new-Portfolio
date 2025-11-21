@@ -11,7 +11,20 @@ import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 
 function App() {
-  const [portfolioData, setPortfolioData] = useState(null);
+  const [portfolioData, setPortfolioData] = useState({
+    personalInfo: {
+      name: "Mohammed Ashique S",
+      title: "MERN Stack Developer",
+      email: "ashiqueoffl7@gmail.com",
+      phone: "+91 79028 57903",
+      linkedin: "linkedin.com/in/mohammed-ashique-s-13613b339",
+      github: "github.com/mohammedashiqueofficial7"
+    },
+    about: "Passionate MERN Stack Developer with experience in building modern web applications.",
+    education: [],
+    experience: [],
+    projects: []
+  });
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -33,26 +46,7 @@ function App() {
     setDarkMode(!darkMode);
   };
 
-  if (!portfolioData) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-container">
-          <div className="loading-logo">
-            <div className="logo-text">MA</div>
-          </div>
-          <div className="loading-spinner">
-            <div className="spinner-ring"></div>
-            <div className="spinner-ring"></div>
-            <div className="spinner-ring"></div>
-          </div>
-          <div className="loading-text">Loading Portfolio...</div>
-          <div className="loading-progress">
-            <div className="progress-bar"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className={`App ${darkMode ? 'dark' : 'light'}`}>
